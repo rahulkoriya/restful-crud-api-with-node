@@ -12,4 +12,4 @@ Node provides the RESTful API. MongoDB stores like a hoarder
   2. Install the application: `npm install`
   3. Place your own MongoDB URI in `config/db.js`
   4. Start the server: `npm run dev`
-  5. Test API in postman or any other tool with host `http://localhost:8080`
+  5. Test API in postman or any other tool with host `http://localhost:8000`
