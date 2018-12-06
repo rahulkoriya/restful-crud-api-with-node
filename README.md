@@ -8,7 +8,7 @@ Node provides the RESTful API. MongoDB stores like a hoarder
   - MongoDB: Make sure you have your own local or remote MongoDB database URI configured in config/db.js
 
 ## Installation
-  1. Clone the repository: `git clone` 
+  1. Clone the repository: `git clone git@github.com:rahulkoriya/restful-crud-api-with-node.git` 
   2. Install the application: `npm install`
   3. Place your own MongoDB URI in `config/db.js`
   4. Start the server: `npm run dev`
