@@ -6,6 +6,7 @@ exports.create = (req, res) => {
     // Validate request
     if(!req.body.content) {
         return res.status(400).send({
+            status: 'Fail',
             message: 'Note content can not be empty.'
         })
     }
@@ -19,10 +20,16 @@ exports.create = (req, res) => {
     // Save note in database
     note.save()
     .then(data => {
-        res.send(data)
+        res.send({
+            status: 'Success',
+            message: 'Note saved successfully.',
+            data: [data]
+        })
     }).catch(err => {
         res.status(500).send({
-            message: err.message || 'Error occured while creating note.'
+            status: 'Fail',
+            message: err.message || 'Error occured while creating note.',
+            data: []
         })
     })
 }
@@ -33,13 +40,20 @@ exports.findAll = (req, res) => {
     .then(note => {
         if(note == '') {
             res.send({
+                status: 'Success',
                 message: 'No note found.'
             })
         }
-        res.send(note)
+        res.send({
+            status: 'Success',
+            message: 'Note retrived successfully.',
+            data: note,
+        })
     }).catch(err => {
         res.status(500).send({
-            message: err.message || 'Some error occured while retriving note.'
+            status: 'Fail',
+            message: err.message || 'Some error occured while retriving note.',
+            data: []
         })
     })
 }
@@ -50,19 +64,29 @@ exports.findOne = (req, res) => {
     .then(note => {
         if(!note) {
             res.status(404).send({
-                message: 'Note not found with id' + req.params.id
+                status: 'Fail',
+                message: 'Note not found with id' + req.params.id,
+                data: []
             })
         }
 
-        res.send(note)
+        res.send({
+            status: 'Success',
+            message: 'Note retrived successfully',
+            data: [note]
+        })
     }).catch(err => {
         if(err.kind === 'ObjectId') {
             res.status(404).send({
-                message: 'Note (objectId) not found with id' + req.params.id
+                status: 'Fail',
+                message: 'Note not found with id' + req.params.id,
+                data: []
             })
         }
         res.status(500).send({
-            message: 'error retriving note with id' + req.params.id
+            status: 'Fail',
+            message: 'error retriving note with id' + req.params.id,
+            data: []
         })
     })
 }
@@ -73,6 +97,7 @@ exports.update = (req, res) => {
     // Validate request
     if(!req.body.content) {
         res.status(400).send({
+            status: 'Fail',
             message: 'Note content can not be empty.'
         })
     }
@@ -85,18 +110,28 @@ exports.update = (req, res) => {
     .then(note => {
         if(!note) {
             res.status(404).send({
-                message: 'Note not found with id ' + req.params.id
+                status: 'Fail',
+                message: 'Note not found with id ' + req.params.id,
+                data: []
             })
         }
-        res.send(note)
+        res.send({
+            status: 'Success',
+            message: 'Note updated successfully.',
+            data: [note]
+        })
     }).catch(err => {
         if(err.kind === 'ObjectId') {
             res.status(404).send({
-                message: 'Note not found with id ' + req.params.id
+                status: 'Fail',
+                message: 'Note not found with id ' + req.params.id,
+                data: []
             })
         }
         res.status(500).send({
-            message: 'Error occured while updating note.'
+            status: 'Fail',
+            message: 'Error occured while updating note.',
+            data: []
         })
     })
 }
@@ -107,19 +142,23 @@ exports.delete = (req, res) => {
     .then(note => {
         if(!note) {
             res.status(404).send({
+                status: 'Fail',
                 message: 'Note not found with id ' + req.params.id
             })
         }
         res.send({
+            status: 'Success',
             message: 'Note deleted successfully.'
         })
     }).catch(err => {
         if(err.kind === 'ObjectId' || err.name === 'NotFound') {
             res.status(404).send({
+                status: 'Fail',
                 message: 'Note not found with id ' + req.params.id
             })
         }
         res.status(500).send({
+            status: 'Fail',
             message: 'Could not delete note.'
         })
     })
