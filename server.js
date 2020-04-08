@@ -7,7 +7,7 @@ const cors = require('cors');
 // create express app
 const app = express();
 
-const port = 8000;
+const port = process.env.PORT || 8000;
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
